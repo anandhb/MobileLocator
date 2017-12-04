@@ -1,0 +1,69 @@
+$(document).ready(function () {
+  $('#BookService').click(function () {
+  alert("commonfunction");
+  callBookService();
+  });
+
+function callWebService(json, bookservicerequestjson, successBooked, failedtobook){
+  
+      $.ajax({
+                type: 'POST',
+                url: bookserviceURL,
+                headers: { 'x-token': "3fd062bd-7e11-406b-80c1-22f07c4a74ff" },
+                crossDomain: true,
+                data: JSON.stringify(json),
+                dataType: 'json',
+                contentType: "application/json",
+                success: function (responseData, textStatus) {
+                alert("Success");
+          		successBooked(responseData, textStatus);
+                },
+                error: function (responseData, textStatus) {
+          	alert("failure");
+          			failedtobook(responseData, textStatus);
+
+                }
+              })
+
+  }
+
+  function callBookService(){
+	alert("callbookservice");
+
+var bookserviceURL = "http://172.16.5.136:8080/nissan/services/booking/servicebooking";
+
+  var bookservicerequestjson =
+          {
+              "serviceBooking" : {
+          		"serviceRequestDate" : "22/09/2016",
+          		"serviceStationLocation" : "Chennai",
+          		"faultDescription" : "Regular service",
+          		"status":"1"
+          	}
+          }
+callWebService(bookserviceURL, bookservicerequestjson,successBooked,failedtobook);
+  }
+
+function successBooked(responseData, textStatus){
+    	alert("successfully booked");
+    	   hostdata = responseData;
+                        console.log(JSON.stringify(responseData));
+      }
+
+      function failedtobook(responseData, textStatus){
+    	alert("Webservice connection failed");
+    	   hostdata = responseData;
+                                console.log(JSON.stringify(responseData));
+      }
+
+
+  });
+
+
+/*
+
+alert "failure"
+
+failedtobook is not a function
+
+*/
